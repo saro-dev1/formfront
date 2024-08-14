@@ -21,6 +21,7 @@ const Form = () => {
     tag: '',
     followUpDate: '',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const formRef = useRef(null);
@@ -42,7 +43,8 @@ const Form = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage(''); // Clear any previous error message
+    setErrorMessage('');
+    setIsSubmitting(true);
     try {
       const response = await axios.post('https://form-6scp.onrender.com/api/submit-form', formData);
       setIsSubmitted(true); // Trigger success animation
@@ -62,6 +64,7 @@ const Form = () => {
         tag: '',
         followUpDate: '',
       });
+      setIsSubmitting(false);
       setTimeout(() => {
         setIsSubmitted(false); // Hide success animation after 4 seconds
         if (formRef.current) {
