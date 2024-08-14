@@ -1,4 +1,4 @@
-/* src/index.css */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -11,7 +11,7 @@
     background-size: cover;
     background-repeat: no-repeat;
 }
-/* src/components/Form.css */
+
 .glassmorphism {
     background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
     border-radius: 10px; /* Rounded corners */
@@ -119,4 +119,136 @@
   
   .priority-option input[type="radio"].high:checked {
     background-color: #f44336;
+  }
+
+  /* admin panel  */
+/* src/AdminPanel.css */
+.admin-panel {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .accordion-item {
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .accordion-header {
+    background-color: #f2f2f2;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .accordion-header h3 {
+    margin: 0;
+  }
+  
+  .actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .edit-button, .delete-button {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .delete-button {
+    background-color: #dc3545;
+  }
+  
+  .accordion-content {
+    display: none;
+    padding: 10px;
+    background-color: #ffffff;
+  }
+  
+  .accordion-content.active {
+    display: block;
+  }
+  
+  .accordion-content p {
+    margin: 5px 0;
+  }
+  
+
+  
+  .item-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  .item {
+    clip-path: inset(0 0 0 0);
+    animation: shred 1s forwards;
+  }
+  
+  /* Transition effect */
+  .transition-fade {
+    transition: opacity 1s ease-out;
+  }
+/* styles.css */
+.shredding {
+    animation: shred 1s forwards;
+  }
+  
+  @keyframes shred {
+    0% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    50% {
+      opacity: 0.5;
+      transform: translateY(50px) scale(0.8);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(100px) scale(0.6);
+    }
+  }
+    
+  .item.shredding {
+    animation: reduceWidth 1.7s ease-out 1;
+  }
+  
+  @keyframes reduceWidth {
+    0% {
+      width: 250px;
+      padding: 1rem;
+    }
+    80% {
+      width: 250px;
+      min-width: 250px;
+      padding: 1rem;
+      margin: 0 2rem 0 0;
+    }
+    100% {
+      width: 0;
+      min-width: 0;
+      padding: 0;
+      margin: 0;
+    }
+  }
+  
+  /* Add styles to handle shredding state */
+  .item.shredding {
+    background: transparent;
+    box-shadow: none;
+  }
+  
+  .item.shredding > .delete {
+    opacity: 0;
   }

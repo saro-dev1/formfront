@@ -24,7 +24,76 @@ const Form = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [errors, setErrors] = useState({});
   const formRef = useRef(null);
+
+  const validateForm = () => {
+    const newErrors = {};
+    // Name validation: only alphabetic characters
+    if (!/^[a-zA-Z\s]+$/.test(formData.name)) {
+      newErrors.name = 'Name should contain only letters and spaces.';
+    }
+    // Email validation: proper email format
+    if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address.';
+    }
+    if (!/^\d{10}$/.test(formData.contactNo)) {
+        newErrors.contactNo = 'Contact number should be exactly 10 digits.';
+      }
+
+      if (!formData.name.trim()) {
+        newErrors.name = 'Name is required.';
+      } else if (!/^[a-zA-Z\s]+$/.test(formData.name)) {
+        newErrors.name = 'Name should contain only letters and spaces.';
+      }
+      // Email validation: proper email format
+      if (!formData.email.trim()) {
+        newErrors.email = 'Email is required.';
+      } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+        newErrors.email = 'Please enter a valid email address.';
+      }
+      // Contact No. validation: exactly 10 digits
+      if (!formData.contactNo.trim()) {
+        newErrors.contactNo = 'Contact number is required.';
+      } else if (!/^\d{10}$/.test(formData.contactNo)) {
+        newErrors.contactNo = 'Contact number should be exactly 10 digits.';
+      }
+      // Address
+      if (!formData.address.trim()) {
+        newErrors.address = 'Address is required.';
+      }
+      // Service
+      if (!formData.service.trim()) {
+        newErrors.service = 'Service is required.';
+      }
+      // Company Name
+      if (!formData.companyName.trim()) {
+        newErrors.companyName = 'Company Name is required.';
+      }
+      // Website
+      if (!formData.website.trim()) {
+        newErrors.website = 'Website is required.';
+      }
+      // Allocated To
+      if (!formData.allocatedTo.trim()) {
+        newErrors.allocatedTo = 'Allocated To is required.';
+      }
+      // Academic Level
+      if (!formData.academicLevel.trim()) {
+        newErrors.academicLevel = 'Academic Level is required.';
+      }
+      // Tag
+      if (!formData.tag.trim()) {
+        newErrors.tag = 'Tag is required.';
+      }
+      // Follow Up Date
+      if (!formData.followUpDate.trim()) {
+        newErrors.followUpDate = 'Follow Up Date is required.';
+      }
+    // Additional validation for other fields can be added here
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleChange = (e) => {
     setFormData({
@@ -43,6 +112,7 @@ const Form = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
     setErrorMessage('');
     setIsSubmitting(true);
     try {
@@ -117,10 +187,10 @@ const Form = () => {
             className='focus:none'
             value={formData.name}
             onChange={handleChange}
-            required
             placeholder=" "
           />
           <label>Name</label>
+          {errors.name && <span className="text-red-500">{errors.name}</span>}
         </div>
 
         {/* Email */}
@@ -130,10 +200,10 @@ const Form = () => {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            required
             placeholder=" "
           />
           <label>Email</label>
+          {errors.email && <span className="text-red-500">{errors.email}</span>}
         </div>
 
         {/* Contact No. */}
@@ -143,10 +213,10 @@ const Form = () => {
             name="contactNo"
             value={formData.contactNo}
             onChange={handleChange}
-            required
             placeholder=" "
           />
           <label>Contact No.</label>
+          {errors.contactNo && <span className="text-red-500">{errors.contactNo}</span>}
         </div>
 
         {/* Address */}
@@ -160,6 +230,7 @@ const Form = () => {
             placeholder=" "
           />
           <label>Address</label>
+          {errors.address && <span className="text-red-500">{errors.address}</span>}
         </div>
 
         {/* Service */}
@@ -173,6 +244,7 @@ const Form = () => {
             placeholder=" "
           />
           <label>Service</label>
+          {errors.service && <span className="text-red-500">{errors.service}</span>}
         </div>
 
         {/* Requirement Editor */}
@@ -203,6 +275,7 @@ const Form = () => {
             <option value="HrBulb">HrBulb</option>
           </select>
           <label>Company Name</label>
+          {errors.companyName && <span className="text-red-500">{errors.companyName}</span>}
         </div>
 
         {/* Website */}
@@ -221,6 +294,7 @@ const Form = () => {
             <option value="thehrbulb.com">thehrbulb.com</option>
           </select>
           <label>Website</label>
+          {errors.website && <span className="text-red-500">{errors.website}</span>}
         </div>
 
         {/* Allocated To */}
@@ -238,6 +312,7 @@ const Form = () => {
             <option value="user3">User 3</option>
           </select>
           <label>Allocated To</label>
+          {errors.allocatedTo && <span className="text-red-500">{errors.allocatedTo}</span>}
         </div>
 
         {/* Priority */}
@@ -294,6 +369,7 @@ const Form = () => {
             placeholder=" "
           />
           <label>Academic Level</label>
+          {errors.academicLevel && <span className="text-red-500">{errors.academicLevel}</span>}
         </div>
 
         {/* Tag */}
@@ -307,6 +383,7 @@ const Form = () => {
             placeholder=" "
           />
           <label>Tag</label>
+          {errors.followUpDate && <span className="text-red-500">{errors.followUpDate}</span>}
         </div>
 
         {/* Follow Up Date */}
@@ -323,7 +400,13 @@ const Form = () => {
         </div>
 
        
-        <button type="submit" className='button'>Submit</button>
+        <button
+            type="submit"
+            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Submitting...' : 'Submit'}
+          </button>
       </form>
     </div>
     </>
